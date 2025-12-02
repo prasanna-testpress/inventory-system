@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ item.name }}</title>
+</head>
+<body>
+    <a href="{% url 'inventory:item_list' %}">← Back to List</a>
+
+    <h1>{{ item.name }}</h1>
+    <p><strong>SKU:</strong> {{ item.sku }}</p>
+    <p><strong>Price:</strong> ${{ item.price }}</p>
+    <p><strong>Stock Level:</strong> {{ item.quantity }} units</p>
+
+    <p><strong>Category:</strong> {{ item.category.name }}</p>
+
+    {% if item.is_low_stock %}
+        <div style="background-color: #ffcccc; padding: 10px; border: 1px solid red;">
+            ⚠️ Warning: This item is running low!
+        </div>
+    {% endif %}
+</body>
+</html>

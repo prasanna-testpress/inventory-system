@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 
 class Category(models.Model):
@@ -23,6 +24,8 @@ class Item(models.Model):
     # --- BASIC DATA ---
     name = models.CharField(max_length=200)
     sku = models.CharField(max_length=20, unique=True, help_text="Stock Keeping Unit")
+    slug=models.SlugField(max_length=250,unique=True)
+
     
     # --- FINANCIAL DATA ---
     # SENIOR RULE: Never use FloatField for money.

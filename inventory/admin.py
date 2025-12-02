@@ -9,7 +9,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sku', 'category', 'price', 'quantity', 'is_low_stock_display')
+    list_display = ('name', 'sku', 'category', 'price', 'quantity', 'is_low_stock_display','slug')
     # FILTERS: Sidebar filters for quick sorting
     list_filter = ('category', 'created_at')
 
@@ -19,6 +19,7 @@ class ItemAdmin(admin.ModelAdmin):
     # EDITING: Edit these fields without opening the item
     list_editable = ('price', 'quantity')
 
+    prepopulated_fields = {'slug':('name',)}
     @admin.display(description='Low Stock?', boolean=True)
     def is_low_stock_display(self,obj):
         return obj.is_low_stock

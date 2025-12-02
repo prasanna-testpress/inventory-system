@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory List</title>
+</head>
+<body>
+    <h1>Current Inventory</h1>
+
+    <ul>
+        {% for item in items %}
+            <li>
+                <a href="{% url 'inventory:item_detail' item.slug %}">
+                    {{ item.name }}
+                </a>
+                
+                - ${{ item.price }}
+                
+                {% if item.is_low_stock %}
+                    <span style="color: red; font-weight: bold;">(LOW STOCK)</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No items found in stock.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
