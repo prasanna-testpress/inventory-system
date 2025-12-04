@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Item</title>
+</head>
+<body>
+    <h1>Add New Inventory Item</h1>
+
+    <form method="post">
+        
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Save Item</button>
+    </form>
+
+    <br>
+    <a href="{% url 'inventory:item_list' %}">Cancel</a>
+</body>
+</html>

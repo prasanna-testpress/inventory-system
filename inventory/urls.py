@@ -5,5 +5,7 @@ app_name = 'inventory'  # Crucial for the {% url %} tag later
 
 urlpatterns = [
     path('', views.item_list, name='item_list'),
+     path('add/',views.item_create,name='item_create'),
     path('<slug:slug>/', views.item_detail, name='item_detail'),
+   
 ]
