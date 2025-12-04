@@ -20,5 +20,6 @@
     {% endif %}
 
     <a href="{% url 'inventory:item_update' item.slug %}">Edit Item</a>
+    <a href="{% url 'inventory:item_delete' item.slug %}">Delete Item</a>
 </body>
 </html>

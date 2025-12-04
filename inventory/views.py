@@ -60,7 +60,6 @@ def item_create(request):
 
 
 def item_update(request,slug):
-    print("slug -------------------------",slug)
 
     item=get_object_or_404(Item,slug=slug)
 
@@ -78,3 +77,14 @@ def item_update(request,slug):
         form = ItemForm(instance=item)
 
     return render(request, 'inventory/item_form.html', {'form': form})
+
+def item_delete(request,slug):
+
+    item=get_object_or_404(Item,slug=slug)
+
+    if request.method == 'POST':
+                
+        item.delete()
+        return redirect('inventory:item_list')
+
+    return render(request, 'inventory/item_confirm_delete.html', {'item':item})

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>Delete {{ item.name }}?</title></head>
+<body>
+    <h1>Are you sure?</h1>
+    <p>Are you sure you want to delete "<strong>{{ item.name }}</strong>"?</p>
+    <p>This action cannot be undone.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="color: red;">Yes, Delete it</button>
+        <a href="{% url 'inventory:item_detail' item.slug %}">Cancel</a>
+    </form>
+</body>
+</html>
