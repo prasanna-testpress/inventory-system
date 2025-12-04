@@ -18,5 +18,7 @@
             ⚠️ Warning: This item is running low!
         </div>
     {% endif %}
+
+    <a href="{% url 'inventory:item_update' item.slug %}">Edit Item</a>
 </body>
 </html>

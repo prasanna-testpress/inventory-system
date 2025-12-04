@@ -55,3 +55,26 @@ def item_create(request):
         form = ItemForm()
 
     return render(request, 'inventory/item_form.html', {'form': form})
+
+
+
+
+def item_update(request,slug):
+    print("slug -------------------------",slug)
+
+    item=get_object_or_404(Item,slug=slug)
+
+    if request.method == 'POST':
+        # 1. User submitted data. Pass it to the form.
+        form = ItemForm(request.POST,instance=item)
+        
+        if form.is_valid():            
+            form.save()
+
+            # Success! Send them to the detail page of the new item.
+            return redirect('inventory:item_detail', slug=item.slug)
+    else:
+        # 2. User just visited the page (GET). Show empty form.
+        form = ItemForm(instance=item)
+
+    return render(request, 'inventory/item_form.html', {'form': form})
