@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import Item
-from .forms import ItemForm
+from .forms import ItemForm,ReviewForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 
@@ -22,11 +22,40 @@ def item_detail(request, slug):
     # If not found, Django automatically raises a 404 "Page Not Found" error.
     # This prevents your site from crashing with a 500 error on bad links.
     item = get_object_or_404(Item, slug=slug)
+# 1. Fetch existing reviews to display
+    reviews = item.reviews.all().order_by('-created') # Newest first
 
-    print("Item",item)
-    
+    # 2. Handle the Form Submission (POST)
+    if request.method == 'POST':
+        # Security Check: Only logged-in users can post
+        if request.user.is_authenticated:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                # COMMIT=FALSE PATTERN
+                # Create the object but don't save to DB yet
+                review = form.save(commit=False)
+                
+                # Assign the missing data
+                review.item = item
+                review.user = request.user
+                
+                # Now save!
+                review.save()
+                
+                # Refresh the page to show the new review
+                return redirect('inventory:item_detail', slug=slug)
+        else:
+            # If a guest tries to hack a POST request, just redirect them
+            return redirect('login')
+            
+    else:
+        # 3. Handle the Page Load (GET)
+        form = ReviewForm()
+
     context = {
-        'item': item
+        'item': item,
+        'reviews': reviews,
+        'form': form,
     }
     return render(request, 'inventory/item_detail.html', context)
 

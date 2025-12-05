@@ -21,5 +21,37 @@
 
     <a href="{% url 'inventory:item_update' item.slug %}">Edit Item</a>
     <a href="{% url 'inventory:item_delete' item.slug %}">Delete Item</a>
+    <hr>
+    
+    <h3>Customer Reviews</h3>
+    
+    {% if user.is_authenticated %}
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <h4>Leave a Review</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Post Review</button>
+            </form>
+        </div>
+    {% else %}
+        <p><em><a href="{% url 'login' %}">Login</a> to leave a review.</em></p>
+    {% endif %}
+
+    <div>
+        {% for review in reviews %}
+            <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                <strong>{{ review.user.username }}</strong> 
+                <span style="color: #f39c12;">
+                    {{ review.rating }} / 5 ★
+                </span>
+                <small style="color: grey;">- {{ review.created_at|date:"M d, Y" }}</small>
+                
+                <p>{{ review.comment }}</p>
+            </div>
+        {% empty %}
+            <p>No reviews yet. Be the first!</p>
+        {% endfor %}
+    </div>
 </body>
 </html>

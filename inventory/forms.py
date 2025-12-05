@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item
+from .models import Item,Review
 
 # SENIOR PATTERN: ModelForm
 # Instead of redefining every field (name = forms.CharField...), 
@@ -15,4 +15,15 @@ class ItemForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Item Name'}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        
+        # UI Polish: Make the comment box smaller so it doesn't take up the whole page
+        widgets = {
+            'comment': forms.Textarea(attrs={'rows': 3, 'class': 'form-control', 'placeholder': 'Write your review...'}),
         }
