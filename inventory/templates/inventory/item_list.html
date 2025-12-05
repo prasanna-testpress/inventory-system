@@ -1,29 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Inventory List</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Shop Home{% endblock %}
+
+{% block content %}
     <h1>Current Inventory</h1>
+
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'inventory:item_create' %}" class="btn btn-primary">+ Add New Item</a></p>
+    {% endif %}
 
     <ul>
         {% for item in items %}
             <li>
-                <a href="{% url 'inventory:item_detail' item.slug %}">
-                    {{ item.name }}
-                </a>
-                
+                <a href="{% url 'inventory:item_detail' item.slug %}">{{ item.name }}</a>
                 - ${{ item.price }}
-                
                 {% if item.is_low_stock %}
                     <span style="color: red; font-weight: bold;">(LOW STOCK)</span>
                 {% endif %}
             </li>
         {% empty %}
-            <li>No items found in stock.</li>
+            <li>No items found.</li>
         {% endfor %}
     </ul>
-
-    <a href="{%url 'inventory:item_create' %}">Add Item</a>
-</body>
-</html>
+{% endblock %}

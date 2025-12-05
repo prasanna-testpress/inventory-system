@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Inventory System{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .alert { padding: 10px; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .btn { padding: 5px 10px; text-decoration: none; border: 1px solid #ccc; background: #eee; color: black; }
+        .btn-primary { background: #007bff; color: white; border-color: #007bff; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'inventory:item_list' %}">🏠 Home</a>
+            {% if user.is_authenticated %}
+                | Logged in as: <b>{{ user.username }}</b>
+                | <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                  </form>
+            {% else %}
+                | <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

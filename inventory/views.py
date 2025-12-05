@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404,redirect
 from .models import Item
 from .forms import ItemForm
 from django.utils.text import slugify
+from django.contrib.auth.decorators import login_required
+
 def item_list(request):
     # Fetch all items
     items = Item.objects.all()
@@ -29,7 +31,7 @@ def item_detail(request, slug):
     return render(request, 'inventory/item_detail.html', context)
 
 
-
+@login_required
 def item_create(request):
     if request.method == 'POST':
         # 1. User submitted data. Pass it to the form.
@@ -56,9 +58,7 @@ def item_create(request):
 
     return render(request, 'inventory/item_form.html', {'form': form})
 
-
-
-
+@login_required
 def item_update(request,slug):
 
     item=get_object_or_404(Item,slug=slug)
@@ -78,6 +78,7 @@ def item_update(request,slug):
 
     return render(request, 'inventory/item_form.html', {'form': form})
 
+@login_required
 def item_delete(request,slug):
 
     item=get_object_or_404(Item,slug=slug)
