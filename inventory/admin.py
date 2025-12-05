@@ -1,5 +1,6 @@
+from django.contrib.admin.decorators import display
 from django.contrib import admin
-from .models import Category, Item
+from .models import Category, Item,Review
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -23,3 +24,11 @@ class ItemAdmin(admin.ModelAdmin):
     @admin.display(description='Low Stock?', boolean=True)
     def is_low_stock_display(self,obj):
         return obj.is_low_stock
+
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+
+    list_display=['item','user','rating','created']
+    list_filter=['rating']
