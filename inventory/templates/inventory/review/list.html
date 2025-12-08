@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>My Reviews</h1>
+
+    {% for review in reviews %}
+
+        <li>
+            <p>Item : {{review.item}}</p>
+            <p>Rating Given :{{review.rating}}</p>
+            {% if review.comment %}
+                <p>{{review.comment}}</p>
+            {% endif %}
+            <a href="{% url 'inventory:review_edit' review.id %}">Edit</a>
+            <a href="{% url 'inventory:review_delete' review.id %}">delete</a>
+
+        </li>
+
+    {% empty %}
+    <p>You Not Review any Item</p>
+
+    {% endfor %}
+
+
+{% endblock %}
